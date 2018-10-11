@@ -1,26 +1,30 @@
-import User from '../../models/user';
-import { Strategy, ExtractJWT } from 'passport-jwt';
+import { User } from '../../models';
+// import { Strategy, ExtractJWT } from 'passport-jwt';
 import bcrypt from 'bcrypt';
 
 class UserController {
   static async registerUser(req, res) {
-    const hashedPassword = await bcrypt.hashSync(req.body.password, 8);
     let newUser = new User();
-    newUser.firstName = req.body.firstName;
-    newUser.lastName = req.body.lastName;
-    newUser.email = req.body.email;
-    newUser.password = hashedPassword;
     const doesUserExist = await User.findOne({ email: newUser.email });
     if (doesUserExist) {
       res.json({ message: 'The user with that email already exist' });
-      next();
+    } else {
+      bcrypt.hash(req.body.password, 8, (error, hash) => {
+        if (error) {
+          res.send(error);
+        }
+        newUser.firstName = req.body.firstName;
+        newUser.lastName = req.body.lastName;
+        newUser.email = req.body.email;
+        newUser.password = hash;
+        newUser.save(error => {
+          if (error) {
+            res.send(error);
+          }
+          res.send({ message: 'You are registered successfully' });
+        });
+      });
     }
-    newUser.save(error => {
-      if (error) {
-        res.send(error);
-      }
-      res.send({ message: 'You are registered successfully' });
-    });
   }
   static async loginUser(req, res) {
     const findUser = await User.findOne({ email: req.body.email });
