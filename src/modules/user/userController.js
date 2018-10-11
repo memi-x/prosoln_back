@@ -1,5 +1,5 @@
-import User from '../../models/user';
-import { Strategy, ExtractJWT } from 'passport-jwt';
+import { User } from '../../models';
+// import { Strategy, ExtractJWT } from 'passport-jwt';
 import bcrypt from 'bcrypt';
 
 class UserController {
