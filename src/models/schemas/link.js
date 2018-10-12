@@ -1,19 +1,19 @@
-import Schema from '../schemaSetup';
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
 
 const LinkSchema = new Schema({
-  link: { type: String, required: true },
   title: { type: String, required: true },
+  url: { type: String, required: true },
   category: { type: String, required: true },
-  subCategory: { type: String, required: false },
   problem: { type: String, required: true },
   solution: { type: String, required: true },
   access: {
     type: String,
-    enum: ['public', 'community', 'private'],
+    enum: ['public', 'private'],
     required: true
   },
-  hashTags: { type: String, required: false },
-  dateCreated: { type: Date, default: Date.now }
+  datePosted: { type: Date, default: Date.now }
 });
 
 export default LinkSchema;
