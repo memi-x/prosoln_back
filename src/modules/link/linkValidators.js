@@ -1,12 +1,7 @@
 import { body } from 'express-validator/check';
 
 export const validateLinkBody = [
-  body('link')
-    .not()
-    .isEmpty()
-    .withMessage('Link name cannot be empty')
-    .isURL()
-    .withMessage('Link must be a valid URL'),
+  body('url', 'Link must be a valid URL').isURL(),
   body('title', 'Title of link posted cannot be empty')
     .isString()
     .not()
@@ -16,6 +11,15 @@ export const validateLinkBody = [
     .withMessage('Specify the accessibility of your link')
     .not()
     .isEmpty()
-    .isIn(['public', 'community', 'private'])
-    .withMessage('Accessibility can be "public", "community", "private"')
+    .isIn(['public', 'private'])
+    .withMessage('Accessibility can be "public", "private"'),
+  body('category', 'Category cannot be empty')
+    .not()
+    .isEmpty(),
+  body('problem', 'Problem faced should be specified')
+    .not()
+    .isEmpty(),
+  body('solution', 'Solution solved cannot be empty')
+    .not()
+    .isEmpty()
 ];

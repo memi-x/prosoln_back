@@ -1,4 +1,6 @@
-import Schema from '../schemaSetup';
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   firstName: { type: String, required: true },

@@ -21,7 +21,7 @@ class UserController {
           if (error) {
             res.send(error);
           }
-          res.send({ message: 'You are registered successfully' });
+          res.status(201).send({ message: 'You are registered successfully' });
         });
       });
     }
@@ -32,9 +32,9 @@ class UserController {
       res.send({ message: 'The user does not exist. Please register' });
     }
     if (!bcrypt.compareSync(req.body.password, findUser.password)) {
-      res.send({ message: 'Please enter correct password' });
+      res.status(400).send({ message: 'Please enter correct password' });
     }
-    res.send({ message: 'Successfully logged in' });
+    res.status(200).send({ message: 'Successfully logged in' });
   }
   static logoutUser(req, res) {}
 }
